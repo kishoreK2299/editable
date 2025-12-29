@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Management - Globentix CRM</title>
+    <link rel="stylesheet" href="./Salary.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header / Navigation - Matching Contact Page Structure -->
+        <header class="header">
+            <div class="header-content">
+                <!-- Sidebar Toggle Button -->
+                <div class="sidebar-toggle-sticky">
+                    <button class="sidebar-toggle-btn" onclick="toggleSidebar()">
+                        <i class="fas fa-chevron-left" id="sidebarToggleIcon"></i>
+                    </button>
+                </div>
+                
+                <div class="header-left">
+                    <div class="logo">
+                        <img src="../Asset/Globentix_logo.png" alt="Globentix Logo">
+                    </div>
+                    
+                    <nav class="main-nav">
+                        <a href="/MAIN_PAGE/index.html" class="nav-link" data-page="dashboard">
+                            <i class="fas fa-tachometer-alt"></i> 
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="/show_new_demo/show.html" class="nav-link" data-page="leads">
+                            <i class="fas fa-user-plus"></i> 
+                            <span>Show Leads</span>
+                        </a>
+                        <a href="/INDUSTRY_LEAD_PAGE/demo.html" class="nav-link" data-page="industry-leads">
+                            <i class="fas fa-headset"></i> 
+                            <span>Industry Leads</span>
+                        </a>
+                        <a href="/DEAL/deal.html" class="nav-link" data-page="deals">
+                            <i class="fas fa-handshake"></i> 
+                            <span>Deals</span>
+                        </a>
+                        <a href="/CONTACT/contact.html" class="nav-link" data-page="contacts">
+                            <i class="fas fa-address-book"></i> 
+                            <span>Contacts</span>
+                        </a>
+                        <a href="/INVOICE/invoice.html" class="nav-link" data-page="invoice">
+                            <i class="fas fa-file-invoice"></i> 
+                            <span>Invoice</span>
+                        </a>
+                        <a href="/SALARY/Salary.html" class="nav-link active" data-page="salary">
+                            <i class="fas fa-money-bill"></i> 
+                            <span>Salary</span>
+                        </a>
+                    </nav>
+                </div>
+                
+                <div class="header-right">
+                    <div class="user-profile" onclick="toggleUserMenu()">
+                        <div class="user-avatar" id="userAvatar">
+                            <span class="avatar-letter" id="avatarLetter">U</span>
+                        </div>
+                        <span class="user-name" id="userDisplayName">Loading...</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- User Dropdown Menu -->
+            <div class="user-dropdown" id="userDropdown">
+                <div class="dropdown-item" onclick="viewProfile()">
+                    <i class="fas fa-user"></i>
+                    <span>View Profile</span>
+                </div>
+                <div class="dropdown-item" onclick="openSettings()">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </div>
+                <div class="dropdown-item" onclick="openHelp()">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Help & Support</span>
+                </div>
+                <div class="dropdown-item logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Floating Toggle Button -->
+            <button class="floating-sidebar-toggle" id="floatingSidebarToggle" onclick="toggleSidebar()">
+                <i class="fas fa-chevron-right" id="floatingToggleIcon"></i>
+            </button>
+
+            <!-- Dashboard Header with Generate New Salary Button -->
+            <div class="dashboard-header">
+                <div class="dashboard-header-actions">
+                    <button class="btn-primary" onclick="showSalaryGenerator()">
+                        <i class="fas fa-plus"></i> Generate New Salary
+                    </button>
+                    <!-- Search container -->
+                    <div class="search-container">
+                        <i class="fas fa-search"></i>
+                        <input type="search" class="search-input" placeholder="Search salaries..." onkeyup="filterSalaries()" id="searchInput">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Area - Side by Side Layout -->
+            <div class="main-content-area">
+                <!-- Controls Section on Left -->
+                <section class="controls-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-filter"></i> Filters & Controls</h3>
+                    </div>
+                    
+                    <div class="filters-bar">
+                        <div class="filter-group">
+                            <label for="monthFilter">Month:</label>
+                            <select id="monthFilter" class="form-select" onchange="filterSalaries()">
+                                <option value="all">All Months</option>
+                                <option value="January">January</option>
+                                <option value="February">February</option>
+                                <option value="March">March</option>
+                                <option value="April">April</option>
+                                <option value="May">May</option>
+                                <option value="June">June</option>
+                                <option value="July">July</option>
+                                <option value="August">August</option>
+                                <option value="September">September</option>
+                                <option value="October">October</option>
+                                <option value="November">November</option>
+                                <option value="December">December</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="yearFilter">Year:</label>
+                            <select id="yearFilter" class="form-select" onchange="filterSalaries()">
+                                <option value="all">All Years</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <button class="btn-secondary" onclick="resetFilters()">
+                                <i class="fas fa-undo"></i> Reset
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="view-controls">
+                        <div class="sort-controls">
+                            <label for="sortBy">Sort By:</label>
+                            <select id="sortBy" class="form-select" onchange="sortSalaries()">
+                                <option value="created_desc">Newest First</option>
+                                <option value="created_asc">Oldest First</option>
+                                <option value="name_asc">Name A-Z</option>
+                                <option value="name_desc">Name Z-A</option>
+                                <option value="amount_desc">Highest Salary</option>
+                                <option value="amount_asc">Lowest Salary</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="quick-actions">
+                        <div class="section-header">
+                            <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                        </div>
+                        <button class="btn-secondary" onclick="printAllSalaries()">
+                            <i class="fas fa-print"></i> Print All
+                        </button>
+                        <button class="btn-secondary" onclick="exportSalaries()">
+                            <i class="fas fa-download"></i> Export CSV
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Salaries Section on Right -->
+                <section class="contacts-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-money-bill-wave"></i> All Salaries</h3>
+                        <span class="total-records">Total Records: <span id="totalRecords">0</span></span>
+                    </div>
+
+                    <div class="contacts-container">
+                        <!-- Table View Only -->
+                        <div class="contacts-table-view active" id="tableView">
+                            <div class="table-container">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" onchange="selectAllSalaries(this)"></th>
+                                            <th onclick="sortTable('employeeId')">EMP ID <i class="fas fa-sort"></i></th>
+                                            <th onclick="sortTable('employeeName')">Employee Name <i class="fas fa-sort"></i></th>
+                                            <th onclick="sortTable('title')">Title <i class="fas fa-sort"></i></th>
+                                            <th onclick="sortTable('month')">Month <i class="fas fa-sort"></i></th>
+                                            <th onclick="sortTable('year')">Year <i class="fas fa-sort"></i></th>
+                                            <th onclick="sortTable('basicPay')">Basic Pay <i class="fas fa-sort"></i></th>
+                                            <th onclick="sortTable('specialAllowance')">Allowance <i class="fas fa-sort"></i></th>
+                                            <th onclick="sortTable('netPay')">Net Pay <i class="fas fa-sort"></i></th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="salaryTableBody">
+                                        <!-- Table rows will be populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bulk Actions -->
+                    <div class="bulk-actions" id="bulkActions" style="display: none;">
+                        <span class="selected-count">0 salaries selected</span>
+                        <button class="btn-secondary" onclick="bulkPrintSalaries()">
+                            <i class="fas fa-print"></i> Print Selected
+                        </button>
+                        <button class="btn-secondary" onclick="bulkExportSalaries()">
+                            <i class="fas fa-download"></i> Export Selected
+                        </button>
+                        <button class="btn-danger" onclick="bulkDeleteSalaries()">
+                            <i class="fas fa-trash"></i> Delete Selected
+                        </button>
+                    </div>
+                    <br>
+                    <!-- Pagination -->
+                    <div class="pagination-container">
+                        <div class="pagination-info">
+                            Showing <span id="paginationStart">1</span> to <span id="paginationEnd">4</span> of <span id="paginationTotal">0</span> salaries
+                        </div>
+                        <div class="pagination-controls">
+                            <button class="pagination-btn" onclick="previousPage()" id="prevBtn">
+                                <i class="fas fa-chevron-left"></i> Previous
+                            </button>
+                            <div class="pagination-numbers" id="paginationNumbers">
+                                <!-- Page numbers will be populated by JavaScript -->
+                            </div>
+                            <button class="pagination-btn" onclick="nextPage()" id="nextBtn">
+                                Next <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Salary Generator Modal -->
+    <div class="modal-overlay" id="salaryGeneratorModal" style="display: none;">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3 id="salaryModalTitle">Generate New Salary</h3>
+                <button class="modal-close" onclick="closeSalaryModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="salaryForm" class="contact-form">
+                    <div class="form-sections">
+                        <!-- Employee Information Section -->
+                        <div class="form-section">
+                            <h4><i class="fas fa-user-tie"></i> Employee Information</h4>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="employeeId">Employee ID *</label>
+                                    <input type="text" id="employeeId" class="form-input" placeholder="Enter employee ID" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="employeeName">Employee Name *</label>
+                                    <input type="text" id="employeeName" class="form-input" placeholder="Enter employee name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="employeeTitle">Title *</label>
+                                    <input type="text" id="employeeTitle" class="form-input" placeholder="Enter job title" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="employeeEmail">Email *</label>
+                                    <input type="email" id="employeeEmail" class="form-input" placeholder="Enter email address" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="employeePan">PAN Number *</label>
+                                    <input type="text" id="employeePan" class="form-input" placeholder="Enter PAN number" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="employeeAccount">Account Number *</label>
+                                    <input type="text" id="employeeAccount" class="form-input" placeholder="Enter account number" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Salary Details Section -->
+                        <div class="form-section">
+                            <h4><i class="fas fa-calculator"></i> Salary Details</h4>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="workingDays">Working Days *</label>
+                                    <input type="number" id="workingDays" class="form-input" value="30" min="1" max="31" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lopDays">Loss of Pay Days</label>
+                                    <input type="number" id="lopDays" class="form-input" value="0" min="0" max="31">
+                                </div>
+                                <div class="form-group">
+                                    <label for="basicPay">Basic Pay (INR) *</label>
+                                    <input type="number" id="basicPay" class="form-input" placeholder="Enter basic pay" step="0.01" min="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="specialAllowance">Special Allowance (INR) *</label>
+                                    <input type="number" id="specialAllowance" class="form-input" placeholder="Enter special allowance" step="0.01" min="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="taxDeduction">Tax Deduction (INR)</label>
+                                    <input type="number" id="taxDeduction" class="form-input" placeholder="Enter tax deduction" step="0.01" min="0" value="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Salary Preview Section -->
+                        <div class="form-section">
+                            <h4><i class="fas fa-eye"></i> Salary Preview</h4>
+                            <div class="salary-preview-card">
+                                <div class="preview-row">
+                                    <span>Basic Pay:</span>
+                                    <span id="previewBasicPay">₹0.00</span>
+                                </div>
+                                <div class="preview-row">
+                                    <span>Special Allowance:</span>
+                                    <span id="previewAllowance">₹0.00</span>
+                                </div>
+                                <div class="preview-row">
+                                    <span>Tax Deduction:</span>
+                                    <span id="previewTax">₹0.00</span>
+                                </div>
+                                <div class="preview-row">
+                                    <span>LOP Deduction:</span>
+                                    <span id="previewLOP">₹0.00</span>
+                                </div>
+                                <div class="preview-row total">
+                                    <strong>Net Salary:</strong>
+                                    <strong id="previewNetSalary">₹0.00</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-actions modal-actions-inline">
+                <button type="button" class="btn-primary btn-submit-contact" onclick="saveSalary()">
+                    <i class="fas fa-save"></i> Generate Salary
+                </button>
+                <button type="button" class="btn-secondary btn-cancel-contact" onclick="closeSalaryModal()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn-secondary" onclick="previewSalarySlip()">
+                    <i class="fas fa-eye"></i> Preview
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Salary Preview Modal (CLEAN VERSION - KEEP THIS ONE) -->
+    <div class="modal-overlay" id="salaryPreviewModal" style="display: none;">
+        <div class="modal-content extra-large">
+            <div class="modal-header">
+                <h3><i class="fas fa-file-invoice-dollar"></i> Salary Slip Preview</h3>
+                <button class="modal-close" onclick="closePreviewModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="salary-slip-container">
+                    <!-- Salary Slip Header -->
+                    <div class="slip-header">
+                        <div class="company-info">
+                            <img src="../Asset/Globentix_logo.png" alt="Globentix Logo" class="slip-logo">
+                        </div>
+                        <div class="slip-title">
+                            <h2>SALARY SLIP</h2>
+                            <div class="slip-period">
+                                <div class="period-item">
+                                    <span class="label">Pay Period:</span>
+                                    <span class="value" id="preview-month">March</span>
+                                    <span class="value" id="preview-year">2024</span>
+                                </div>
+                                <div class="period-item">
+                                    <span class="label">Pay Date:</span>
+                                    <span class="value" id="preview-pay-date">29/03/2024</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Employee Information -->
+                    <div class="employee-section">
+                        <h3>Employee Information</h3>
+                        <div class="info-grid">
+                            <div class="info-row">
+                                <span class="info-label">Employee ID:</span>
+                                <span class="info-value" id="preview-employeeId">GD-001</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Employee Name:</span>
+                                <span class="info-value" id="preview-employeeName">John Doe</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Designation:</span>
+                                <span class="info-value" id="preview-employeeTitle">Software Engineer</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Email:</span>
+                                <span class="info-value" id="preview-employeeEmail">john.doe@company.com</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Account Number:</span>
+                                <span class="info-value" id="preview-employeeAccount">123456789012</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Salary Details -->
+                    <div class="salary-details-section">
+                        <h3>Salary Details</h3>
+                        <div class="salary-details-grid">
+                            <div class="detail-row">
+                                <span class="detail-label">Working Days:</span>
+                                <span class="detail-value" id="preview-working-days">30</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Loss of Pay Days:</span>
+                                <span class="detail-value" id="preview-lop-days">0</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Basic Pay:</span>
+                                <span class="detail-value amount" id="preview-basicPay">₹43,750.00</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Special Allowance:</span>
+                                <span class="detail-value amount" id="preview-specialAllowance">₹5,000.00</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Tax Deduction:</span>
+                                <span class="detail-value amount" id="preview-taxDeduction">₹500.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Net Salary Section -->
+                    <div class="net-salary-section">
+                        <div class="net-salary-card">
+                            <div class="net-salary-header">
+                                <h3>TOTAL NET PAYABLE</h3>
+                            </div>
+                            <div class="net-amount">
+                                <span class="currency">₹</span>
+                                <span class="net-amount-value" id="preview-netSalary">48,250.00</span>
+                            </div>
+                            <div class="amount-in-words">
+                                <p><strong>Amount In Words:</strong> <span id="preview-salaryInWords">Indian Rupee Forty-Eight Thousand Two Hundred Fifty Only</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="slip-footer">
+                        <div class="payslip-footer-note">
+                            <p class="payslip-for-month">Payslip For the Month <span id="preview-footer-month">March 2024</span></p>
+                        </div>
+                        <div class="signature-section">
+                            <div class="signature-box">
+                                <div class="signature-line"></div>
+                                <p class="signature-label">Authorized Signature</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-primary" onclick="printSalary()">
+                    <i class="fas fa-print"></i> Print Salary Slip
+                </button>
+                <button class="btn-secondary" onclick="downloadSalaryPDF()">
+                    <i class="fas fa-download"></i> Download PDF
+                </button>
+                <button class="btn-secondary" onclick="closePreviewModal()">
+                    <i class="fas fa-times"></i> Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Confirm Deletion</h3>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this salary record?</p>
+                <p><strong id="deleteSalaryName"></strong></p>
+                <p class="warning-text">This action cannot be undone.</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-danger" onclick="confirmDelete()">Delete</button>
+                <button class="btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="salary-script.js"></script>
+</body>
+</html>
